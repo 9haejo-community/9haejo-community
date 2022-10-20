@@ -240,6 +240,14 @@ body{
 #main-screen__contents-list__table tbody tr td:nth-child(2){
     width: 112px;
 }
+#main-screen__contents-list__table tbody tr td:nth-child(2) span{
+    padding: 0 20px;
+    border-radius: 5px;
+    color:white;
+    background-color: #F50000;
+}
+
+
 #main-screen__contents-list__table tbody tr td:nth-child(3){
     width: 675px;
     text-align: start;

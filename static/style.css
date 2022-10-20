@@ -415,21 +415,23 @@ body{
     position: fixed;
     top:0;
     left: 0;
-    background-color: rgba(0,0,0,0.7);
-    transition: all 0.5s;
     opacity: 0;
-    visibility: hidden;
     min-height:100%; 
     min-width: 100%;
-    z-index: 1;
+    z-index: -1;
+    transition: all 0.001s;   
 }
 
 input#side-bar__on:checked ~ #side-bar{
     left:0;
 }
+input#side-bar__on:checked ~ #main-screen{
+    opacity: 0.4;
+}
 input#side-bar__on:checked ~ .bg{
   opacity: 1;
   visibility: visible;
+  z-index: 2;
 }
 /* 메뉴 닫는 X버튼 */
 /* #menuCloseBtn {

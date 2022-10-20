@@ -17,11 +17,16 @@ body{
     display: flex;
     min-height: 912px;
     min-width: 380px;
-    background-color: rgba(0,0,0,0.2);
+    background-color: white;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    position: relative;
+    position: fixed;
+    top:0;
+    z-index: 3;
+    left:-380px;
+    transition: all 0.5s;
+    border-right: 1px solid black;
 }
 #side-bar__clock{
     height: 135px;
@@ -156,6 +161,7 @@ body{
     min-width: 1580px;
     padding-left: 100px;
     flex-direction: column;
+    transition: all 0.3s ease-in-out;
 }
 #main-screen__body{
     position: relative;
@@ -392,18 +398,38 @@ body{
     left:10px;    
     justify-content: center;
     align-items: center;
+    z-index: 5;
+}
+#menubtn i:hover{
+    cursor: pointer;   
+}
+.bg{
+    position: fixed;
+    top:0;
+    left: 0;
+    background-color: rgba(0,0,0,0.7);
+    transition: all 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    min-height:100%; 
+    min-width: 100%;
+    z-index: 1;
 }
 
-#menuCloseBtn,#menubtn:hover{
-    cursor: pointer;
+input#side-bar__on:checked ~ #side-bar{
+    left:0;
 }
-
+input#side-bar__on:checked ~ .bg{
+  opacity: 1;
+  visibility: visible;
+}
 /* 메뉴 닫는 X버튼 */
-#menuCloseBtn {
+/* #menuCloseBtn {
     position: absolute;
     font-size: 24px;
     font-weight: 700;
     right: 15px;
     top: 10px;
-}
+} */ 
+
 

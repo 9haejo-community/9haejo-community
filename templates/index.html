@@ -12,10 +12,8 @@
     <title>항해99 시크릿 커뮤니티</title>
   </head>
   <body>
+    <input type="checkbox" id="side-bar__on" style="" />
     <div id="side-bar">
-      <!-- side-bar닫는 X버튼입니다! -->
-      <div id="menuCloseBtn">X</div> 
-
       <div id="side-bar__clock">
         <h1>Oct 19 2022</h1>
         <div>
@@ -44,8 +42,13 @@
         <div>로그아웃</div>
       </div>
     </div>
-    <div id="menubtn"><i class="fa-solid fa-bars"></i></div>
-    
+
+    <div id="menubtn">
+      <label for="side-bar__on"
+        ><i id="menubtn-icon" class="fa-solid fa-bars"></i>
+      </label>
+    </div>
+    <label for="side-bar__on" class="bg"></label>
     <div id="main-screen">
       <div id="main-screen__body">
         <div id="main-screen__contents-list">
@@ -176,49 +179,19 @@
         </ul>
       </div>
     </div>
-
     <script>
-      const bodyTag = document.querySelector('body');
-      const sideBarEle = document.querySelector('#side-bar');
-      const menuCloseBtn = document.querySelector('#menuCloseBtn');
-      const sideBarEleAll = sideBarEle.childNodes;
-      const menuBtn = document.querySelector('.fa-solid.fa-bars');
-      const trashBtnAll = document.querySelectorAll('.fa-solid.fa-trash');
-      const todoUlEle = document.querySelector('.toDo-ulEle');
-      menuCloseBtn.addEventListener('click', (event) => {
-          sideBarEle.style.transition = '0.2s';
-          sideBarEle.style.minWidth = '0';
-          sideBarEle.style.minHeight = '0';
-          for(let i = 0; i < sideBarEleAll.length; i++) {
-            if(sideBarEleAll[i].nodeName !== '#text' && sideBarEleAll[i].nodeName !== '#comment'){
-              // console.log(sideBarEleAll[i].nodeName);
-              sideBarEleAll[i].style.display = 'none';
-            }
-          }
-      });
-      menuBtn.addEventListener('click', (event) => {
-        sideBarEle.style.minWidth = '0';
-        sideBarEle.style.minHeight = '0';
-        for(let i = 0; i < sideBarEleAll.length; i++) {
-            if(sideBarEleAll[i].nodeName !== '#text' && sideBarEleAll[i].nodeName !== '#comment'){
-              // menuBtn을 눌렀을때 다시 사이드바가 띄어지는 부분이... display설정이 힘듭니다 ㅠㅠ
-              // console.log(sideBarEleAll[i].nodeName);
-              // sideBarEleAll[i].style.display = 'block';
-              
-            }
-          }
-      });
+      const checkbox = document.querySelector("#side-bar__on");
+      const menubtn = document.querySelector("#menubtn-icon");
 
-      // toDo 리스트 쓰레기통 버튼클릭
-      for(let i = 0; i < trashBtnAll.length; i++) {
-        trashBtnAll[i].addEventListener('click', (event) => {
-          console.log(trashBtnAll[i].parentElement);
-          todoUlEle.removeChild(trashBtnAll[i].parentElement);
-        });
+      function iconChange() {
+        if (checkbox.checked == true) {
+          menubtn.className = "fa-solid fa-xmark";
+        } else {
+          menubtn.className = "fa-solid fa-bars";
+        }
       }
-      
 
-      
+      checkbox.addEventListener("click", iconChange);
     </script>
   </body>
 </html>

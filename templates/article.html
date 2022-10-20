@@ -102,7 +102,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/homework",
+                url: "/article",
                 data: {'title_give':title, 'tag_give':tag, 'text_give':text},
                 success: function (response) {
                     alert(response["msg"])
@@ -110,9 +110,10 @@
                 }
             });
         }
+
 </script>
 <body>
-    <section class="back">
+    <section id="back" class="back">
         <div class="art_sign">
             <h2 class="art_title">항해99에 대한 이야기를 나눠주세요</h2>
             <div class="input-group input-group-lg">
@@ -125,13 +126,13 @@
                 <input id="tag" type="text" class="form-control" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-lg" placeholder="태그를 입력해주세요.">
             </div>
-            <h2 class="content_title"><img src="img/Article.png" alt="이미지"> 본문을 입력해주세요</h2>
+            <h2 class="content_title"><img src="./img/Article.png" alt="이미지"> 본문을 입력해주세요</h2>
             <div class="input-group">
                 <textarea id="text" class="form-control" name="content" rows="10" cols="150" placeholder="본문을 입력해주세요."></textarea>
             </div>
             <div class="mybtn">
                 <button type="button" class="btn btn-primary btn-lg" onclick="save_text()">등록하기</button>
-                <button type="button" class="btn btn-secondary btn-lg">취소하기</button>
+                <button type="button" class="btn btn-secondary btn-lg" onclick="close()">취소하기</button>
             </div>
             </div>
         </div>

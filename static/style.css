@@ -13,7 +13,17 @@ body{
     min-height: 912px;
     min-width: 1652px;
 }
+#side-bar{
+    display: flex;
+    min-height: 912px;
+    min-width: 380px;
+    background-color: rgba(0,0,0,0.2);
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
 
+}
 #side-bar__clock{
     height: 135px;
     width: 300px;
@@ -67,6 +77,10 @@ body{
     font-weight: 600;
     font-size:25px;
 }
+#side-bar__link__homebtn:hover{
+    cursor: pointer;
+}
+
 #side-bar__link__writebtn{
     font-family: 'Open Sans', sans-serif;
     display: flex;
@@ -79,6 +93,9 @@ body{
     justify-content: center;
     font-weight: 600;
     font-size:25px;
+}
+#side-bar__link__writebtn:hover{
+    cursor: pointer;
 }
 #side-bar__best-contents{
     height: 365px;
@@ -114,6 +131,9 @@ body{
     font-family: 'Open Sans', sans-serif;
     font-size: 17px;
 }
+#side-bar__menu div:first-child:hover{
+    cursor: pointer;
+}
 #side-bar__menu div:last-child{
     display: flex;
     height: 40px;
@@ -127,7 +147,9 @@ body{
     font-family: 'Open Sans', sans-serif;
     box-shadow: #F50000 0 0 0 2px inset;
     font-size: 17px;
-
+}
+#side-bar__menu div:last-child:hover{
+    cursor: pointer;
 }
 #main-screen{
     display: flex;
@@ -217,6 +239,10 @@ body{
     width: 675px;
     text-align: start;
 }
+#main-screen__contents-list__table tbody tr td:nth-child(3):hover{
+    border-bottom: 2px solid #F50000;
+}
+
 #main-screen__contents-list__table tbody tr td:nth-child(4){
     width: 112px;
 }
@@ -259,8 +285,8 @@ body{
 }
 
 #main-screen__widget__todos ul{
-    width: 90%;
-    height: 90%;
+    width: 288px;
+    height: 300px;
     text-align: start;
 }
 #main-screen__widget__todos ul li{
@@ -276,6 +302,28 @@ body{
     border-radius: 20%;
     background-color: transparent;
     border: none;
+}
+#main-screen__widget__todos ul li button:hover{
+    cursor: pointer;
+}
+#main-screen__widget__todos ul li button:active{
+    scale: 90%;
+}
+#main-screen__widget__todos__submit input{
+    font-family: 'Open Sans', sans-serif;
+    color:rgba(0,0,0,0.5);
+    font-weight: 600;
+    width: 288px;
+    height: 30px;
+    border: none;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    text-align: center;
+    transition: all 1s ease-in-out;
+}
+#main-screen__widget__todos__submit input:focus{
+    scale: 105%;
+    background-color: rgba(0,0,0,0.1);
 }
 #main-screen__footer{
     height: 265px;
@@ -343,4 +391,7 @@ body{
     left:10px;    
     justify-content: center;
     align-items: center;
+}
+#menubtn:hover{
+    cursor: pointer;
 }

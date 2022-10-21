@@ -97,13 +97,16 @@
 <script>
      function save_text() {
             let title = $('#title').val()
+            let name = $('#name').val()
             let tag = $('#tag').val()
             let text = $('#text').val()
+            let num = $('#num').val()
+
 
             $.ajax({
                 type: "POST",
                 url: "/article",
-                data: {'title_give':title, 'tag_give':tag, 'text_give':text},
+                data: {'title_give':title, 'tag_give':tag, 'text_give':text, 'name_give':name, 'num_give':num},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
@@ -120,11 +123,17 @@
                 <span class="input-group-text" id="inputGroup-sizing-lg"><p>제목</p></span>
                 <input id="title" type="text" class="form-control" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-lg" placeholder="제목을 입력해주세요.">
+                   <span class="input-group-text" id="inputGroup-sizing-lg"><p>작성자</p></span>
+                <input id="name" type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-lg" placeholder="작성자명을 입력해주세요.">
             </div>
               <div class="input-group input-group-lg input2">
                 <span class="input-group-text" id="inputGroup-sizing-lg"><p>태그</p></span>
                 <input id="tag" type="text" class="form-control" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-lg" placeholder="태그를 입력해주세요.">
+                  <span class="input-group-text" id="inputGroup-sizing-lg"><p>글번호</p></span>
+                <input id="num" type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-lg" placeholder="번호">
             </div>
             <h2 class="content_title"><img src="./img/Article.png" alt="이미지"> 본문을 입력해주세요</h2>
             <div class="input-group">

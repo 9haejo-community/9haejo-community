@@ -16,13 +16,18 @@ def home():
 @app.route("/article", methods=["POST"])
 def web_mars_post():
     title_receive = request.form['title_give']
+    name_receive = request.form['name_give']
     tag_receive = request.form['tag_give']
     text_receive = request.form['text_give']
+    num_receive = request.form['num_give']
+
 
     doc ={
         'title':title_receive,
+        'name':name_receive,
         'tag':tag_receive,
-        'text':text_receive
+        'text':text_receive,
+        'num':num_receive
     }
 
     db.article.insert_one(doc)

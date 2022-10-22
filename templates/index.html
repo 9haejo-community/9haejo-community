@@ -5,10 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/style.css" />
-    <script
-      src="https://kit.fontawesome.com/dc0708434c.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src= "https://kit.fontawesome.com/dc0708434c.js" crossorigin="anonymous"></script>
+    <!-- Jqery cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>항해99 시크릿 커뮤니티</title>
   </head>
   <body>
@@ -44,106 +43,107 @@
     </div>
 
     <div id="menubtn">
-      <label for="side-bar__on"
-        ><i id="menubtn-icon" class="fa-solid fa-bars"></i>
+      <label for="side-bar__on">
+        <i id="menubtn-icon" class="fa-solid fa-bars"></i>
       </label>
     </div>
     <label for="side-bar__on" class="bg"></label>
     <div id="main-screen">
-      <div id="main-screen__body">
-        <div id="main-screen__contents-list">
-          <table id="main-screen__contents-list__table">
-            <thead>
-              <tr>
-                <th><span>번호</span></th>
-                <th><span>분류</span></th>
-                <th><span>제목</span></th>
-                <th><span>작성자</span></th>
-                <th><span>좋아요</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span class="list__num"> 1 </span>
-                </td>
-                <td>
-                  <span class="list__type"> 잡담 </span>
-                </td>
-                <td>
-                  <span class="list__type">
-                    <a href="https://naver.com">다들 행복하세요</a>
-                  </span>
-                </td>
-                <td>
-                  <span class="list__writer"> 이민용 </span>
-                </td>
-                <td>
-                  <span class="list__like">10</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="list__num"> 1 </span>
-                </td>
-                <td>
-                  <span class="list__type"> 잡담 </span>
-                </td>
-                <td>
-                  <span class="list__type">
-                    <a href="https://naver.com">다들 행복하세요</a>
-                  </span>
-                </td>
-                <td>
-                  <span class="list__writer"> 이민용 </span>
-                </td>
-                <td>
-                  <span class="list__like">10</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="list__num"> 1 </span>
-                </td>
-                <td>
-                  <span class="list__type"> 잡담 </span>
-                </td>
-                <td>
-                  <span class="list__type">
-                    <a href="https://naver.com">다들 행복하세요</a>
-                  </span>
-                </td>
-                <td>
-                  <span class="list__writer"> 이민용 </span>
-                </td>
-                <td>
-                  <span class="list__like">10</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="main-screen__widget">
-          <div id="main-screen__widget__news"></div>
-          <div id="main-screen__widget__todos">
-            <span>To-Do</span>
-            <!-- toDo ul에 클래스 추가했습니다. -->
-            <ul class="toDo-ulEle">
-              <li>밥 먹기<button class="fa-solid fa-trash"></button></li>
-              <li>공부 하기<button class="fa-solid fa-trash"></button></li>
-            </ul>
-            <form id="main-screen__widget__todos__submit">
-              <input
-                type="text"
-                required
-                maxlength="20"
-                placeholder="할 일을 적어주세요"
-              />
-            </form>
-          </div>
+      <div id="main-screen__contents-list">
+        <table id="main-screen__contents-list__table">
+          <thead>
+            <tr>
+              <th><span>번호</span></th>
+              <th><span>분류</span></th>
+              <th><span>제목</span></th>
+              <th><span>작성자</span></th>
+              <th><span>좋아요</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="list__num"> 1 </span>
+              </td>
+              <td>
+                <span class="list__type"> 잡담 </span>
+              </td>
+              <td>
+                <span class="list__type">
+                  <a href="https://naver.com">다들 행복하세요</a>
+                </span>
+              </td>
+              <td>
+                <span class="list__writer"> 이민용 </span>
+              </td>
+              <td>
+                <span class="list__like">10</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="list__num"> 1 </span>
+              </td>
+              <td>
+                <span class="list__type"> 잡담 </span>
+              </td>
+              <td>
+                <span class="list__type">
+                  <a href="https://naver.com">다들 행복하세요</a>
+                </span>
+              </td>
+              <td>
+                <span class="list__writer"> 이민용 </span>
+              </td>
+              <td>
+                <span class="list__like">10</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="list__num"> 1 </span>
+              </td>
+              <td>
+                <span class="list__type"> 잡담 </span>
+              </td>
+              <td>
+                <span class="list__type">
+                  <a href="https://naver.com">다들 행복하세요</a>
+                </span>
+              </td>
+              <td>
+                <span class="list__writer"> 이민용 </span>
+              </td>
+              <td>
+                <span class="list__like">10</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="main-screen__widget">
+        <div id="main-screen__widget__news"></div>
+        <div id="main-screen__widget__todos">
+          <span>To-Do</span>
+          <!-- toDo ul에 클래스 추가했습니다. -->
+          <ul class="toDo-ulEle">
+            <li>밥 먹기<button class="fa-solid fa-trash"></button></li>
+            <li>공부 하기<button class="fa-solid fa-trash"></button></li>
+          </ul>
+          <form id="main-screen__widget__todos__submit">
+            <input
+              type="text"
+              required
+              maxlength="20"
+              placeholder="할 일을 적어주세요"
+            />
+          </form>
         </div>
       </div>
-      <div id="main-screen__footer">
+    </div>
+
+    <footer>
+      <div id="footer__inner">
         <ul>
           <li>
             <h1>원OO, 20대 후반, 정보통신공학과 졸</h1>
@@ -157,8 +157,7 @@
               성장할 수 있었던 좋은 경험이였습니다."</span
             >
           </li>
-          <li>
-            <h1>홍OO, 20대 초반, 고졸</h1>
+          <li><h1>홍OO, 20대 초반, 고졸</h1>
             <img
               src="https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmegazonecloud-logo.5c1b17fe.png&w=2048&q=75"
             />
@@ -174,11 +173,10 @@
           </li>
           <li></li>
           <li></li>
-          <li></li>
-          <li></li>
+
         </ul>
       </div>
-    </div>
+    </footer>
     <script>
       const checkbox = document.querySelector("#side-bar__on");
       const menubtn = document.querySelector("#menubtn-icon");

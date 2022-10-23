@@ -481,6 +481,7 @@ footer > #footer__inner> ul:hover::-webkit-scrollbar-thumb{
     min-height: 912px;
     min-width: 1652px;
     z-index: -1;
+    visibility:hidden;
     transition: all 0.001s;   
 }
 
@@ -497,13 +498,5 @@ input#side-bar__on:checked ~ .bg{
     visibility: visible;
     z-index: 2;
 }
-/* 메뉴 닫는 X버튼 */
-/* #menuCloseBtn {
-    position: absolute;
-    font-size: 24px;
-    font-weight: 700;
-    right: 15px;
-    top: 10px;
-} */ 
 
 

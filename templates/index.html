@@ -11,6 +11,9 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <!-- SWIPER -->
+      <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+      <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <title>항해99 시크릿 커뮤니티</title>
   </head>
   <body>
@@ -152,37 +155,8 @@
     </div>
 
     <footer>
-      <div id="footer__inner">
-        <ul>
-          <li>
-            <h1>원OO, 20대 후반, 정보통신공학과 졸</h1>
-            <img
-              src="https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffinda-logo.2b20b042.png&w=256&q=75"
-            />
-            <h2>핀다 데이터기반 금융상품 비교 추천 서비스 (174억+ 투자)</h2>
-            <span
-              >"프론트엔드 분야로 커리어를 시작하고 싶어서 지원하게 되었고
-              99일동안 크루원들과 같이 열정적으로 몰입해서 개발하며 엄청나게
-              성장할 수 있었던 좋은 경험이였습니다."</span
-            >
-          </li>
-          <li><h1>홍OO, 20대 초반, 고졸</h1>
-            <img
-              src="https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmegazonecloud-logo.5c1b17fe.png&w=2048&q=75"
-            />
-            <h2>
-              메가존 클라우드 기업용 클라우드 인프라 구축 서비스 (2380억+ 투자)
-            </h2>
-            <span
-              >"원하는 걸 만들면서 능동적으로 성장했고 같은 꿈을 가진 좋은
-              사람들과 협업하는 소중한 경험을 했습니다. 99일 정말 길지도 짧지도
-              않은 시간이지만 몰입한다면 원하는 바 이룰 수 있을 거라
-              확신합니다."</span
-            >
-          </li>
-          <li></li>
-          <li></li>
-
+      <div id="footer__inner" class="swiper">
+        <ul id="footer__reviewBox" class="swiper-wrapper">
         </ul>
       </div>
     </footer>
@@ -202,5 +176,6 @@
     <script src="../static/board.js"></script>
     <script src="../static/clock.js"></script>
     <script src="../static/news.js"></script>
+    <script src="../static/footer.js"></script>
   </body>
 </html>

@@ -387,37 +387,37 @@ body{
 
 /* footer */
 footer{
-    position: absolute;
-    bottom: 0;
     height: 300px;
-    width: 100%;
     background-color: rgb(94, 16, 16);
 }
 
 footer > #footer__inner {
+    pointer-events: none; 
     margin: auto;
     width: 1500px;
 }
 
-footer > #footer__inner > ul {
+footer .swiper {
+    padding-left: 50px;
+}
+footer .swiper .swiper-wrapper {
+    width: 1500px;
     display: flex;
     height: inherit;
-    overflow-x: scroll;
-    width: 100%;
-   z-index: 1;
 }
 
-footer > #footer__inner > ul > li {
-    min-width: 350px;
-    min-height: 250px;
-    border: 1px solid black;
-    margin:10px;
-    background-color: white;
+footer .swiper .swiper-wrapper .swiper-slide {
+    width: 450px !important;
+    text-align: center;
+    height: 270px;
+    border: 2px solid black;
     border-radius: 10px;
-    padding:10px;
-
+    margin:10px;
 }
+
 footer > #footer__inner > ul > li >  h1{
+    margin: 7px;
+    width: 440px;
     font-family: 'Open Sans', sans-serif;
     font-size:20px;
     font-weight: 800;
@@ -425,38 +425,22 @@ footer > #footer__inner > ul > li >  h1{
 }
 footer > #footer__inner> ul > li > img{
     width: 350px;
-    height: 80px;
+    height: 90px;
     margin-bottom: 10px;
-    border:1px solid rgba(0,0,0,0.2);
-    border-radius: 10px;
 }
 footer > #footer__inner > ul > li > h2{
     font-family: 'Open Sans', sans-serif;
-    font-size:15px;
+    font-size:20px;
     font-weight: 600;
     margin-bottom: 10px;
 }
 footer > #footer__inner > ul > li > span{
-    font-family: 'Open Sans', sans-serif;
+    display: block;
+    font-family: 'Open Sans', sans-serif;;
     font-size:16px;
-    font-weight: 400;
+    font-weight: 500;
 }
-footer > #footer__inner> ul::-webkit-scrollbar {
-    height: 10px;
-    background-color: transparent;
 
-}
-footer > #footer__inner> ul::-webkit-scrollbar-thumb {
-    background-color: transparent;
-}
-footer > #footer__inner> ul::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-footer > #footer__inner> ul:hover::-webkit-scrollbar-thumb{
-    background-color: grey;
-    height: 10px;
-    border-radius: 10px;
-}
 #menubtn{
     display: flex;
     font-size: 24px;

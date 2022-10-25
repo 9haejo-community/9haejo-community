@@ -24,7 +24,7 @@ def news_get():
 
     soup = BeautifulSoup(data.text, 'html.parser')
     news = soup.select('body > div.container-doc.cont-category > main > section > div.main-sub > div.box_g.box_news_major > ul > li')
-    news_list = [];
+    news_list = []
     for new in news:
         news_title = new.select_one('strong > a').text
         news_url = new.select_one('strong > a')['href']
@@ -33,5 +33,38 @@ def news_get():
             'url': news_url,
             'title' : news_title,
             'company' : news_company}
-        news_list.append(doc);
+        news_list.append(doc)
     return jsonify({'news_list': news_list})
+
+
+@app.route("/guhaejo/review", methods=["GET"])
+def web_reivews_get():
+    img_list = ['https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhyundai_autoever-logo.4ac170ea.png&w=640&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fyeogi-logo.8550ea49.png&w=640&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fkbbank-logo.cc16ad1a.png&w=640&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fjinhak-logo.7b03c373.png&w=640&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmegazonecloud-logo.5c1b17fe.png&w=2048&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffinda-logo.2b20b042.png&w=256&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhana-logo.4da14aa2.png&w=1920&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbalaan-logo.ced9ed54.png&w=640&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcafe24-logo.92bd253e.png&w=384&q=75',
+                'https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fnewploy-logo.5ca6c380.png&w=3840&q=75',
+                ]
+    url = 'https://hanghae99.spartacodingclub.kr'
+    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(url,headers=headers)
+    soup = BeautifulSoup(data.text, 'html.parser')
+    reviews = soup.select('#__next > section > section.css-1pxpne5 > div > div.css-1y4ubqo > div.css-1ldg707')
+    reviews_list = []
+    for review in reviews:
+        a = review.select_one('h3')
+        if a is not None:
+            title = review.select_one('h3').text
+            company = review.select_one('p').text
+            comment = review.select_one('p:last-child').text
+            review_obj = {'title':title, 'company':company, 'comment':comment}
+            reviews_list.append(review_obj)
+    return jsonify({'reviews' : reviews_list, 'imgList': img_list})
+
+if __name__ == '__main__':
+    app.run('0.0.0.0', port=5010, debug=True)

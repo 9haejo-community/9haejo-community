@@ -6,7 +6,11 @@ app = Flask(__name__)
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.cctcpnr.mongodb.net/?retryWrites=true&w=majority')
 db = client.guhaejo
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+data = requests.get('https://news.daum.net/digital/#1', headers=headers)
 
+soup = BeautifulSoup(data.text, 'html.parser')
 
 @app.route('/')
 def home():
@@ -19,10 +23,6 @@ def board_get():
 
 @app.route("/guhaejo/news", methods=["GET"])
 def news_get():
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-    data = requests.get('https://news.daum.net/digital/#1', headers=headers)
-
-    soup = BeautifulSoup(data.text, 'html.parser')
     news = soup.select('body > div.container-doc.cont-category > main > section > div.main-sub > div.box_g.box_news_major > ul > li')
     news_list = []
     for new in news:
@@ -35,6 +35,34 @@ def news_get():
             'company' : news_company}
         news_list.append(doc)
     return jsonify({'news_list': news_list})
+
+
+@app.route("/guhaejo/todos", methods=["POST"])
+def todo_post():
+    todo_receive = request.form['todo_give']
+    id_receive = request.form['id_give']
+
+    todo_list = list(db.todos.find({},{'_id':False}))
+    count = len(todo_list)+1
+    doc = {
+        'num':count,
+        'todo':todo_receive,
+        'id': id_receive,
+        'done': 0
+    }
+    db.todos.insert_one(doc)
+    return jsonify('msg',"등록 완료")
+
+@app.route("/guhaejo/todos/done", methods=["POST"])
+def todo_done():
+    num_receive = request.form['num_give']
+    db.todos.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
+    return jsonify({'msg': '삭제 완료!'})
+
+@app.route("/guhaejo/todos", methods=["GET"])
+def todo_get():
+    todo_list = list(db.todos.find({},{'_id':False}))
+    return jsonify({'todos': todo_list})
 
 
 @app.route("/guhaejo/review", methods=["GET"])

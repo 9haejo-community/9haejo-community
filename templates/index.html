@@ -138,11 +138,12 @@
         </div>
         <div id="main-screen__widget__todos">
           <span>To-Do</span>
-          <ul>
+          <ul id="main-screen__widget__todos__list">
             <li>밥 먹기<button class="fa-solid fa-trash"></button></li>
             <li>공부 하기<button class="fa-solid fa-trash"></button></li>
           </ul>
-          <form id="main-screen__widget__todos__submit">
+          <form id="main-screen__widget__todos__submit"
+          onsubmit="save_todo()">
             <input
               type="text"
               required
@@ -177,5 +178,6 @@
     <script src="../static/clock.js"></script>
     <script src="../static/news.js"></script>
     <script src="../static/footer.js"></script>
+    <script src="../static/todos.js"></script>
   </body>
 </html>

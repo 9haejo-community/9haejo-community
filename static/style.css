@@ -379,6 +379,7 @@ body{
     border-radius: 10px;
     text-align: center;
     transition: all 1s ease-in-out;
+    margin-bottom: 10px;
 }
 #main-screen__widget__todos__submit input:focus{
     scale: 105%;

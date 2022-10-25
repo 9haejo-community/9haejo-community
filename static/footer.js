@@ -6,7 +6,7 @@ $(document).ready(function () {
         success: function (response) {
             let reviews = response['reviews'];
             let imgList = response['imgList'];
-            console.log(reviews, imgList);
+            // console.log(reviews, imgList);
             for (let i = 0; i < reviews.length; i++) {
                 const title = reviews[i]['title'];
                 const img = imgList[i];

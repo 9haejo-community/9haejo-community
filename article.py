@@ -14,28 +14,30 @@ def home():
     return render_template('article.html')
 
 @app.route("/article", methods=["POST"])
-def web_mars_post():
+def web_article_post():
     title_receive = request.form['title_give']
     name_receive = request.form['name_give']
     tag_receive = request.form['tag_give']
-    text_receive = request.form['text_give']
-    num_receive = request.form['num_give']
+    content_receive = request.form['content_give']
+    article_list = list(db.article.find({},{'_id':False}))
+    count = len(article_list) + 1
 
 
     doc ={
         'title':title_receive,
-        'name':name_receive,
+        'nickname':name_receive,
         'tag':tag_receive,
-        'text':text_receive,
-        'num':num_receive
+        'content':content_receive,
+        'post_num': count
     }
 
     db.article.insert_one(doc)
     return jsonify({'msg': '등록완료!'})
 
 @app.route("/article", methods=["GET"])
-def web_mars_get():
-    return jsonify({'msg': 'GET 연결 완료!'})
+def web_article_get():
+    article_list = db.article.find_one({'post_num': 1})
+    return jsonify({'articles': 'GET 연결 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

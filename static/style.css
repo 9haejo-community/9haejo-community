@@ -19,8 +19,8 @@ body{
 
 #side-bar{
     display: flex;
-    min-height: 912px;
-    min-width: 380px;
+    max-height: 912px;
+    max-width: 380px;
     background-color: white;
     flex-direction: column;
     justify-content: space-between;
@@ -389,7 +389,7 @@ body{
 footer{
     position: absolute;
     bottom: 0;
-    height: 300px;
+    height: 301px;
     width: 100%;
     background-color: rgb(94, 16, 16);
 }
@@ -482,6 +482,7 @@ footer > #footer__inner> ul:hover::-webkit-scrollbar-thumb{
     min-width: 1652px;
     z-index: -1;
     visibility:hidden;
+    display: none;
     transition: all 0.001s;   
 }
 

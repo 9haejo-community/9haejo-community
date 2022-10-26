@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
+from datetime import datetime
+now = datetime.now()
+
 from pymongo import MongoClient
 import certifi
 
 ca = certifi.where()
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.cctcpnr.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
-db = client.dbsparta
+db = client.guhaejo
 
 @app.route('/')
 def home():
@@ -21,6 +24,8 @@ def web_article_post():
     content_receive = request.form['content_give']
     article_list = list(db.article.find({},{'_id':False}))
     count = len(article_list) + 1
+    now = datetime.now()
+    current_time = now.strftime("%Y/%m/%d, %H:%M:%S")
 
 
     doc ={
@@ -28,7 +33,8 @@ def web_article_post():
         'nickname':name_receive,
         'tag':tag_receive,
         'content':content_receive,
-        'post_num': count
+        'post_num': count,
+        'time':current_time
     }
 
     db.article.insert_one(doc)
@@ -36,7 +42,7 @@ def web_article_post():
 
 @app.route("/article", methods=["GET"])
 def web_article_get():
-    article_list = db.article.find_one({'post_num': 1})
+
     return jsonify({'articles': 'GET 연결 완료!'})
 
 if __name__ == '__main__':

@@ -15,7 +15,11 @@ soup = BeautifulSoup(data.text, 'html.parser')
 @app.route('/')
 def home():
     return render_template('index.html')
-    
+
+@app.route('/test')
+def test():
+    return render_template('/test/test.html')
+
 @app.route("/guhaejo", methods=["GET"])
 def board_get():
     board_list = list(db.board.find({},{'_id':False}))

@@ -1,4 +1,5 @@
 import requests
+import uuid
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify
@@ -25,8 +26,6 @@ def board_get():
     board_list = list(db.article.find({},{'_id':False}))
     return jsonify({'board_list': board_list})
 
-
-
 @app.route("/guhaejo/news", methods=["GET"])
 def news_get():
     news = soup.select('body > div.container-doc.cont-category > main > section > div.main-sub > div.box_g.box_news_major > ul > li')
@@ -49,9 +48,9 @@ def todo_post():
     id_receive = request.form['id_give']
 
     todo_list = list(db.todos.find({},{'_id':False}))
-    count = len(todo_list)+1
+    num = uuid.uuid4().hex
     doc = {
-        'num':count,
+        'num':num,
         'todo':todo_receive,
         'id': id_receive,
         'done': 0
@@ -62,14 +61,24 @@ def todo_post():
 @app.route("/guhaejo/todos/done", methods=["POST"])
 def todo_done():
     num_receive = request.form['num_give']
-    db.todos.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
-    return jsonify({'msg': '삭제 완료!'})
+    done_receive = request.form['done_give']
+    if int(done_receive) == 0:
+        db.todos.update_one({'num': num_receive}, {'$set': {'done': 1}})
+        return jsonify({'msg': '완료!'})
+    else:
+        db.todos.update_one({'num': num_receive}, {'$set': {'done': 0}})
+        return jsonify({'msg': '다시!'})
 
 @app.route("/guhaejo/todos", methods=["GET"])
 def todo_get():
     todo_list = list(db.todos.find({},{'_id':False}))
     return jsonify({'todos': todo_list})
 
+@app.route("/guhaejo/todos/delete", methods=["POST"])
+def todo_delete():
+    num_receive = request.form['num_give']
+    db.todos.delete_one({'num': num_receive})
+    return jsonify({'msg': '삭제 완료!'})
 
 @app.route("/guhaejo/review", methods=["GET"])
 def web_reivews_get():
@@ -100,5 +109,14 @@ def web_reivews_get():
             reviews_list.append(review_obj)
     return jsonify({'reviews' : reviews_list, 'imgList': img_list})
 
+
+@app.route("/guhaejo/view-count", methods=["POST"])
+def view_count_post():
+    post_num_receive = request.form['post_num']
+    view_count_receive = request.form['view_count']
+    db.article.update_one({'post_num': int(post_num_receive)},{'$set':{'view_count': int(view_count_receive)}})
+    return jsonify('msg',"view-count+1 완료")
+
+
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5010, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)

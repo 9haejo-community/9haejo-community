@@ -13,11 +13,12 @@ function show_todo(){
                 let todo =rows[i]['todo'];
                 let num = rows[i]['num'];
                 let done = rows[i]['done'];
-                let tempHtml =''
+                let id = rows[i]['id'];
+                let tempHtml ='';
                 if(done == 0){
-                    tempHtml =  `<li>${todo}<button  onclick="done_todo(${num})" class="fa-solid fa-trash"></button></li>`
+                    tempHtml =  `<li><button onclick="done_todo('${num}',${done})"><i class="fa-regular fa-square"></i></button><h2>${todo}</h2><button  onclick="delete_todo('${num}')" class="fa-solid fa-trash"></button></li>`
                 }else{
-                     tempHtml = `<li><h2 class="done">✅ ${todo}</h2></li>`
+                     tempHtml = `<li><button onclick="done_todo('${num}',${done})"><i class="fa-solid fa-square-check"></i></button><h2 class="done"> ${todo}</h2> <button  onclick="delete_todo('${num}')" class="fa-solid fa-trash"></button></li>`
                 }
                 $('#main-screen__widget__todos__list').append(tempHtml);
             }
@@ -42,11 +43,11 @@ function save_todo(){
         }
     });
 }
-function done_todo(num){
+function done_todo(num,done){
     $.ajax({
         type: "POST",
         url: "/guhaejo/todos/done",
-        data: {'num_give':num},
+        data: {'num_give':num,'done_give':done},
         success: function (response) {
             alert(response["msg"])
             window.location.reload()
@@ -54,3 +55,14 @@ function done_todo(num){
     });
 }
 
+function delete_todo(num){
+    $.ajax({
+        type: "POST",
+        url: "/guhaejo/todos/delete",
+        data: {'num_give':num},
+        success: function (response) {
+            alert(response["msg"])
+            window.location.reload()
+        }
+    });
+}

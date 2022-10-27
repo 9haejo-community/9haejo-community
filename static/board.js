@@ -25,7 +25,7 @@ $.ajax({
         <td>
           <span class="list__type"> ${tag} </span>
         </td>
-        <td onclick="show_content('${tag}','${title}','${nickname}','${content}')">
+        <td onclick="show_content('${tag}','${title}','${nickname}','${content}','${view_count}','${post_num}')">
           <span class="list__title">
             ${title}
           </span>
@@ -43,19 +43,26 @@ $.ajax({
 );
 
 function hidden_article(){
-$("#main-screen__contents-list__table")[0].style.display="flex";
-$("#main-screen__contents-list__acticle")[0].style.display="none";
+  $("#main-screen__contents-list__table")[0].style.display="flex";
+  $("#main-screen__contents-list__acticle")[0].style.display="none";
 }
 
-function show_content(tag,title,nickname,content) {
+function show_content(tag,title,nickname,content,view_count,post_num) {
 $("#main-screen__contents-list__table")[0].style.display="none";
 $("#main-screen__contents-list__acticle")[0].style.display="flex";
 $("#main-screen__contents-list__acticle").empty();
 let tempHtml = `<div id="main-screen__contents-list__acticle__exit" onclick="hidden_article()"><i class="fa-solid fa-xmark"></i></div>
               <div id="main-screen__contents-list__acticle__title">[${tag}]${title}</div>
-              <div id="main-screen__contents-list__acticle__headline">${nickname} | <i class="fa-solid fa-comment"></i>5 <i class="fa-regular fa-eye"></i>110</div>
+              <div id="main-screen__contents-list__acticle__headline">${nickname} | <i class="fa-regular fa-eye"></i>${parseInt(view_count)+1}</div>
               <div id="main-screen__contents-list__acticle__content">${content}</div>`
-
 $("#main-screen__contents-list__acticle").append(tempHtml);
 
+$.ajax({
+  type: "POST",
+  url: "/guhaejo/view-count",
+  data: {post_num:post_num,view_count:parseInt(view_count)+1},
+  success: function (response) {
+
+        }
+    });
 }

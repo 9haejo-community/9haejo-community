@@ -17,8 +17,7 @@ body{
 
 #side-bar{
     display: flex;
-    max-height: 912px;
-    min-height: 912px;
+    min-height: 929px;
     max-width: 380px;
     background-color: white;
     flex-direction: column;
@@ -26,7 +25,7 @@ body{
     align-items: center;
     position: absolute;
     top:0;
-    z-index: 3;
+    z-index: 5;
     left:-380px;
     transition: all 0.5s;
     border-right: 1px solid black;
@@ -412,6 +411,7 @@ body{
     align-items: center;
     justify-content: center;
     text-align: center;
+
 }
 #main-screen__widget__todos span{
     font-family: 'Open Sans', sans-serif;
@@ -429,12 +429,14 @@ body{
     display: flex;
     margin-bottom: 5px;
     border-bottom: 2px solid rgba(0,0,0,0.2);
-    justify-content: space-between;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size:15px;
+    align-items: center;
 }
 #main-screen__widget__todos ul li button{
+    height: 15px;
+    width: 15px;
     border-radius: 20%;
     background-color: transparent;
     border: none;
@@ -445,6 +447,17 @@ body{
 #main-screen__widget__todos ul li button:active{
     scale: 90%;
 }
+.done {
+    text-decoration: line-through 2px #F50000;
+}
+#main-screen__widget__todos ul li h2{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size:13px;
+    margin: 0 10px ;
+    width: 250px;
+}
+
 #main-screen__widget__todos__submit input{
     font-family: 'Open Sans', sans-serif;
     color:rgba(0,0,0,0.5);
@@ -468,7 +481,6 @@ footer{
     bottom: 0;
     height: 301px;
     width: 100%;
-    background-color: rgb(94, 16, 16);
 }
 
 footer > #footer__inner {
@@ -487,10 +499,10 @@ footer .swiper .swiper-wrapper {
 }
 
 footer .swiper .swiper-wrapper .swiper-slide {
-    width: 450px !important;
+    width: 446px !important;
     text-align: center;
     height: 270px;
-    border: 2px solid black;
+    border: 4px solid #F50000;
     border-radius: 10px;
     margin:10px;
 }
@@ -517,9 +529,11 @@ footer > #footer__inner > ul > li > h2{
 footer > #footer__inner > ul > li > span{
     display: block;
     font-family: 'Open Sans', sans-serif;;
-    font-size:16px;
+    font-size:14px;
     font-weight: 500;
-}
+    text-align: start;
+    margin: 0px 10px;
+    }
 
 #menubtn{
     display: flex;
@@ -542,21 +556,21 @@ footer > #footer__inner > ul > li > span{
     top:0;
     left: 0;
     opacity: 0;
-    min-height: 912px;
-    min-width: 1652px;
+    min-height: 100%;
+    min-width: 100%;
     z-index: -1;
     visibility:hidden;
-    display: none;
     transition: all 0.001s;   
+    background-color:rgba(0,0,0,0.1);
 }
 
 input#side-bar__on:checked ~ #side-bar{
     left:0;
 }
-input#side-bar__on:checked ~ #main-screen,
-input#side-bar__on:checked ~ footer {
+/* input#side-bar__on:checked ~ #main-screen,
+input#side-bar__on:checked ~ side {
     opacity: 0.4;
-}
+} */
 
 input#side-bar__on:checked ~ .bg{
     opacity: 1;

@@ -63,7 +63,7 @@
               <th><span>분류</span></th>
               <th><span>제목</span></th>
               <th><span>작성자</span></th>
-              <th><span>좋아요</span></th>
+              <th><span>조회수</span></th>
             </tr>
           </thead>
           <tbody id="contents-body">
@@ -74,47 +74,9 @@
               <td>
                 <span class="list__type"> 잡담 </span>
               </td>
-              <td>
+              <td onclick="show_content()">
                 <span class="list__type">
-                  <a href="https://naver.com">다들 행복하세요</a>
-                </span>
-              </td>
-              <td>
-                <span class="list__writer"> 이민용 </span>
-              </td>
-              <td>
-                <span class="list__like">10</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span class="list__num"> 1 </span>
-              </td>
-              <td>
-                <span class="list__type"> 잡담 </span>
-              </td>
-              <td>
-                <span class="list__type">
-                  <a href="https://naver.com">다들 행복하세요</a>
-                </span>
-              </td>
-              <td>
-                <span class="list__writer"> 이민용 </span>
-              </td>
-              <td>
-                <span class="list__like">10</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span class="list__num"> 1 </span>
-              </td>
-              <td>
-                <span class="list__type"> 잡담 </span>
-              </td>
-              <td>
-                <span class="list__type">
-                  <a href="https://naver.com">다들 행복하세요</a>
+                  다들 행복하세요
                 </span>
               </td>
               <td>
@@ -126,6 +88,12 @@
             </tr>
           </tbody>
         </table>
+          <div id="main-screen__contents-list__acticle">
+              <div id="main-screen__contents-list__acticle__exit"><i class="fa-solid fa-xmark"></i></div>
+              <div id="main-screen__contents-list__acticle__title">[태그]제목</div>
+              <div id="main-screen__contents-list__acticle__headline">작성자 | <i class="fa-solid fa-comment"></i>5 <i class="fa-regular fa-eye"></i>110</div>
+              <div id="main-screen__contents-list__acticle__content">본문</div>
+          </div>
       </div>
       <div id="main-screen__widget">
         <div id="main-screen__widget__news">

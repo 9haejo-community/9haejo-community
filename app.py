@@ -16,14 +16,16 @@ soup = BeautifulSoup(data.text, 'html.parser')
 def home():
     return render_template('index.html')
 
-@app.route('/test')
-def test():
-    return render_template('/test/test.html')
+# @app.route('/test')
+# def test():
+#     return render_template('/test/test.html')
 
 @app.route("/guhaejo", methods=["GET"])
 def board_get():
-    board_list = list(db.board.find({},{'_id':False}))
-    return jsonify({'board_list': board_list})\
+    board_list = list(db.article.find({},{'_id':False}))
+    return jsonify({'board_list': board_list})
+
+
 
 @app.route("/guhaejo/news", methods=["GET"])
 def news_get():

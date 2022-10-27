@@ -12,6 +12,10 @@ ca = certifi.where()
 client = MongoClient('mongodb+srv://test:sparta@cluster0.cctcpnr.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.guhaejo
 
+# @app.route('/index')
+# def home():
+#    return render_template('index.html')
+
 @app.route('/')
 def home():
     return render_template('article.html')
@@ -26,6 +30,8 @@ def web_article_post():
     count = len(article_list) + 1
     now = datetime.now()
     current_time = now.strftime("%Y/%m/%d, %H:%M:%S")
+    view_count = 0
+    comment_count = 0
 
 
     doc ={
@@ -34,7 +40,9 @@ def web_article_post():
         'tag':tag_receive,
         'content':content_receive,
         'post_num': count,
-        'time':current_time
+        'time':current_time,
+        'view_count': view_count,
+        'comment_count': comment_count
     }
 
     db.article.insert_one(doc)

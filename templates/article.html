@@ -66,7 +66,7 @@
            margin-top: 14%;
     }
 
-    .form-control{
+    .form-select{
         width: 100%;
     }
 
@@ -97,10 +97,6 @@
 </style>
 <script>
 
-      $(document).ready(function () {
-             show_post_num();
-        });
-
      function save_text() {
             let title = $('#title').val()
             let name = $('#name').val()
@@ -112,13 +108,11 @@
                 url: "/article",
                 data: {'title_give':title, 'tag_give':tag, 'content_give':content, 'name_give':name},
                 success: function (response) {
-                    let post_num = response['post_num']
                     alert(response["msg"])
-                    window.location.reload()
+                    window.location.replace("index.html")
                 }
             });
         }
-
 
 
 </script>
@@ -136,16 +130,20 @@
             </div>
               <div class="input-group input-group-lg input2">
                 <span class="input-group-text" id="inputGroup-sizing-lg"><p>태그</p></span>
-                <input id="tag" type="text" class="form-control" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-lg" placeholder="태그를 입력해주세요.">
+                  <select id="tag" class="form-select" aria-label="Default select example">
+                      <option selected>태그를 선택해주세요.</option>
+                      <option value="기술">기술</option>
+                      <option value="커리큘럼">커리큘럼</option>
+                      <option value="수다">수다</option>
+                  </select>
             </div>
-            <h2 class="content_title"><img src="./img/Article.png" alt="이미지"> 본문을 입력해주세요</h2>
+            <h2 class="content_title"><img src="../static/img/Article.png" alt="이미지">본문을 입력해주세요</h2>
             <div class="input-group">
                 <textarea id="content" class="form-control" name="content" rows="10" cols="150" placeholder="본문을 입력해주세요."></textarea>
             </div>
             <div class="mybtn">
                 <button type="button" class="btn btn-primary btn-lg" onclick="save_text()">등록하기</button>
-                <button type="button" class="btn btn-secondary btn-lg" onclick="close()">취소하기</button>
+                <button type="button" class="btn btn-secondary btn-lg" onclick="location.href='/index.html'">취소하기</button>
             </div>
             </div>
         </div>

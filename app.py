@@ -5,6 +5,8 @@ from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
+
+
 client = MongoClient('mongodb+srv://test:sparta@cluster0.cctcpnr.mongodb.net/?retryWrites=true&w=majority')
 db = client.guhaejo
 headers = {
@@ -23,7 +25,7 @@ def home():
 
 @app.route("/guhaejo", methods=["GET"])
 def board_get():
-    board_list = list(db.article.find({},{'_id':False}))
+    board_list = list(db.article.find({}, {'_id': False}))
     return jsonify({'board_list': board_list})
 
 @app.route("/guhaejo/news", methods=["GET"])

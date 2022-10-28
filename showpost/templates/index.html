@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <title>showpost</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+          rel="stylesheet">
+       <script defer src="index.js"></script>
+   <link rel="stylesheet" href="styles.css">
+    <script>
+        $(document).ready(function () {
+            show_comment();
+            show_post();
+
+
+
+
+
+        function show_post() {
+            $.ajax({
+                type: "GET",
+                url: "/article",
+                data: {},
+                success: function (response) {
+                    let rows = response['articles']
+                    let title = rows[1]['title']  //여기서 1은
+                    let tag = rows[1]['tag']
+                    let nickname = rows[1]['nickname']
+                    let time = rows[1]['time']
+                    let temp_html =
+                        `<h1 id="title">${title}</h1>
+                            <h5 id="tag">${tag}</h5>
+                            <h5 id="nickname">${nickname}</h5>
+                            <h5 id="time">${time}</h5>`
+                    $('#post_info').append(temp_html)
+                }
+
+            });
+            $.ajax({
+                type: "GET",
+                url: "/article",
+                data: {},
+                success: function (response) {
+                    let rows = response['articles']
+                    let text = rows[1]['content']
+                    let temp_html2 =
+                        `<p id="content">${text}</p>`
+                    $('#content').append(temp_html2)
+                }
+
+            });
+        }
+
+        function show_comment() {
+
+            $.ajax({
+                type: "GET",
+                url: "/comment",
+                data: {},
+                success: function (response) {
+                    let rows = response['comments']
+                    for (let i = 0; i < rows.length; i++) {
+                        let id = rows[i]['id']
+                        let comment = rows[i]['comment']
+                        let time = rows[i]['time']
+                        let temp_html =
+                            `<h5>${id}</h5>
+                            <h5>${time}</h5>
+                            <h5>${comment}</h5>
+                            <hr>`
+                        $('#comment-list').append(temp_html)
+                    }
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/comment",
+                data: {},
+                success: function (response) {
+                    let rows = response['comments']
+                    let number_of_comments = length['comments']
+                    let total_comment = rows[rows.length - 1]['total_comment']
+                    if (number_of_comments < 1){
+                        let temp_html2 = `<i class='fas fa-comment-dots'>"0"</i>`
+                        $('#icon').append(temp_html2)
+                    }
+                    else {
+                        let temp_html2 = `<i class='fas fa-comment-dots'>${total_comment}</i>`
+                        $('#icon').append(temp_html2)
+                    }
+                    console.log(toString(number_of_comments))
+                }
+
+            });
+
+
+        }
+
+        function save_comment() {
+            let comment = $('#comment').val()
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                data: {comment_give: comment},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+
+    </script>
+
+    <style>
+        * {
+            font-family: 'Noto Serif KR', serif;;
+
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+
+            width: 100%;
+            height: 150px;
+            text-align: left;
+            padding-top: 2%;
+            padding-left: 2%;
+            padding-bottom: 2%;
+            border-radius: 16px;
+            margin: 5% auto;
+
+        }
+
+        .input-group-text p {
+            margin-top: 14%;
+        }
+
+        .post {
+            width: 100%;
+            height: 0px;
+            text-align: left;
+            padding-top: 0%;
+            padding-left: 2%;
+            padding-bottom: 2%;
+            border-radius: 4px;
+            margin: 2% auto;
+
+        }
+
+        .respond {
+            width: 100%;
+            height: 0px;
+            text-align: left;
+            padding-top: 0%;
+            padding-left: 2%;
+            padding-bottom: 2%;
+            border-radius: 4px;
+            margin: 2% auto;
+        }
+
+        .comment_list {
+            width: 100%;
+            height: 0px;
+            text-align: left;
+            padding-top: 0%;
+            padding-left: 2%;
+            padding-bottom: 2%;
+            border-radius: 4px;
+            margin: 2% auto;
+        }
+
+        .form-control {
+
+            width: 100%;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="header" id="header">
+    <div id="post_info">
+
+    </div>
+    <div id="icon">
+
+    </div>
+    <hr>
+</div>
+
+<div class="post" id="post">
+    <div id="content">
+
+    </div>
+    <hr>
+</div>
+
+<div class="respond" id="respond">
+
+
+    <form action="post_comment.php" method="post" id="commentform">
+        <input id="comment" class="form-control" type="text" placeholder="댓글 남기기">
+        <button onclick="save_comment()" type="button" class="btn btn-outline-primary">등록</button>
+    </form>
+</div>
+<div class="comment_list" id="comment-list">
+</div>
+
+
+
+ </head>
+
+   <div>Website visit count:</div>
+   <div class="website-counter"></div>
+
+
+</body>
+</html>

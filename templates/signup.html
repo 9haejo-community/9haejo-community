@@ -2,35 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
   <title>회원가입 페이지</title>
   <style>
-    body{
+    body {
       background-color: #FAFAFA;
     }
-    .header-inner{
+
+    .header-inner {
       width: 500px;
       margin: 0 auto;
       text-align: center;
     }
-    .title{
-      margin-top: 168px;
+
+    .title {
+      margin-top: 108px;
       font-weight: bold;
     }
-    .sub-title{
+
+    .sub-title {
       font-weight: bold;
     }
-    .login{
+
+    .login {
       display: flex;
       flex-direction: column;
       justify-content: start;
       align-items: center;
       width: 500px;
-      margin: 0 auto; 
+      margin: 0 auto;
       padding-top: 30px;
       height: 500px;
     }
-    #form-nickname{
+
+    #nickname {
       width: 300px;
       height: 53px;;
       padding-top: 0px;
@@ -38,10 +46,11 @@
       font-size: 16px;
       border-radius: 12px;
       color: black;
-      border:none;
+      border: none;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
-    #form-email{
+
+    #email {
       width: 300px;
       height: 53px;
       padding-top: 0px;
@@ -49,10 +58,11 @@
       font-size: 16px;
       border-radius: 12px;
       color: black;
-      border:none;
+      border: none;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
-    #form-password{
+
+    #password {
       width: 300px;
       height: 53px;;
       padding-top: 0px;
@@ -60,10 +70,11 @@
       font-size: 16px;
       border-radius: 12px;
       color: black;
-      border:none;
+      border: none;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
-    #form-confirm-password{
+
+    #confirm-password {
       width: 300px;
       height: 53px;;
       padding-top: 0px;
@@ -71,73 +82,100 @@
       font-size: 16px;
       border-radius: 12px;
       color: black;
-      border:none;
+      border: none;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
-    .login-button{
+
+    .login-button {
       width: 300px;
       height: 48px;
       border-radius: 12px;
       font-weight: bold;
-      font-size:18px;
+      font-size: 18px;
       color: white;
-      border:none;
+      border: none;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
       background-color: #F50000;
     }
-    .sign-up-button{
+
+    .sign-up-button {
       width: 300px;
       height: 48px;
       border-radius: 12px;
       font-weight: bold;
-      font-size:18px;
+      font-size: 18px;
       color: black;
       border: none;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
       background-color: white;
     }
-    .back-button{
+
+    .back-button {
       width: 300px;
       height: 48px;
       border-radius: 12px;
       font-weight: bold;
-      font-size:18px;
+      font-size: 18px;
       color: black;
       border: none;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
       background-color: white;
     }
-    
   </style>
+  <script>
+      function signUp(){
+          let nickname = $('#nickname').val()
+          let email = $('#email').val()
+          let password = $('#password').val()
+          let confirm_password = $('#confirm-password').val()
+
+          console.log(nickname, email, password, confirm_password);
+          $.ajax({
+              type: "POST",
+              url: "/signup",
+              data: {nickname_give: nickname, email_give: email, password_give: password, confirm_password_give: confirm_password},
+              success: function (response) {
+                  if (response['flag'] == 1){
+                      alert("회원가입 성공!");
+                      window.location.replace('/')
+                  }
+                  else{
+                      alert(response["msg"])
+                      window.location.reload();
+                  }
+              }
+          });
+      }
+  </script>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <h1 class="title">환영합니다!</h1>
-      <h5 class="sub-title">아래의 정보를 입력해주세요</h5>
-    </div>
-  </header>
+<header>
+  <div class="header-inner">
+    <h1 class="title">환영합니다!</h1>
+    <h5 class="sub-title">아래의 정보를 입력해주세요</h5>
+  </div>
+</header>
   <div class="login">
-    <form>
+    <div class="form-floating">
       <div class="mb-3">
-        <input id="form-nickname" type="text" class="form-control" aria-describedby="nicknameHelp" placeholder="Nickname">
+        <input id="nickname" type="text" class="form-control" placeholder="Nickname">
       </div>
       <div class="mb-3">
-        <input id="form-email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="E-mail">
+        <input id="email" type="email" class="form-control" placeholder="E-mail">
       </div>
       <div class="mb-3">
-        <input id="form-password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <input id="password" type="password" class="form-control" placeholder="Password">
       </div>
       <div class="mb-3">
-        <input id="form-confirm-password" type="password" class="form-control"  placeholder="Confirm Password">
+        <input id="confirm-password" type="password" class="form-control" placeholder="Confirm Password">
       </div>
       <div class="mb-2">
-        <button type="submit" class="login-button">회원가입</button>
+        <button type="submit" class="login-button" onclick="signUp()">회원 가입</button>
       </div>
       <div class="mb-4">
-        <button type="button" class="back-button" onclick="location.href='signin.html'"">뒤로가기</button>
+        <button type="button" class="back-button" onclick="location.href='/'">뒤로가기</button>
       </div>
-    </form>
+    </div>
   </div>
 </body>
 </html>

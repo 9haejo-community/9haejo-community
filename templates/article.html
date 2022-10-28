@@ -105,11 +105,11 @@
 
             $.ajax({
                 type: "POST",
-                url: "/article",
+                url: "/article/post",
                 data: {'title_give':title, 'tag_give':tag, 'content_give':content, 'name_give':name},
                 success: function (response) {
                     alert(response["msg"])
-                    window.location.replace("index.html")
+                    window.location.replace("/")
                 }
             });
         }
@@ -143,7 +143,7 @@
             </div>
             <div class="mybtn">
                 <button type="button" class="btn btn-primary btn-lg" onclick="save_text()">등록하기</button>
-                <button type="button" class="btn btn-secondary btn-lg" onclick="location.href='/index.html'">취소하기</button>
+                <button type="button" class="btn btn-secondary btn-lg" onclick="location.href='/'">취소하기</button>
             </div>
             </div>
         </div>

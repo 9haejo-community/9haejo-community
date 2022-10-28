@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from datetime import timedelta
+from datetime import timedelta, timezone, datetime
 from flask_jwt_extended import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
@@ -16,39 +16,39 @@ app.config['JWT_CSRF_IN_COOKIES'] = False
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=10)
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=14)
 
-# Protect a route with jwt_required, which will kick out requests
-# without a valid JWT present.
-@app.route("/protected", methods=["GET"])
-@jwt_required(optional=True)
-def protected():
-    # Access the identity of the current user with get_jwt_identity
-    current_user = get_jwt_identity()
-    print(current_user)
-    return jsonify(logged_in_as=current_user), 200
+# Set a callback function to return a custom response whenever an expired
+# token attempts to access a protected route. This particular callback function
+# takes the jwt_header and jwt_payload as arguments, and must return a Flask
+# response. Check the API documentation to see the required argument and return
+# values for other callback functions.
 
-@app.route('/hello')
-@jwt_required(optional=True)
-def hello():
-    return "hello"
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+    return redirect(url_for('login_page'))
+
+# @app.route('/401')
+# @jwt_required(refresh=True)
+# def error_401():
+#     current_user = get_jwt_identity()
+#     print("new ", current_user)
+#     if not current_user:
+#         return redirect(url_for('login_page'))
+#
+#     access_token = create_access_token(identity=current_user)
+#     response = jsonify(flag=1)
+#     set_access_cookies(response, access_token)
+#
+#     return response, 200
 
 @app.route('/home')
 @jwt_required(optional=True)
 def home():
     current_user = get_jwt_identity()
     print(current_user)
-    return render_template('index.html')
-# @jwt_required(refresh=True)
-# def refresh():
-#     current_user = get_jwt_identity()
-#     print(current_user)
-#
-#     access_token = create_access_token(identity=current_user)
-#     response = jsonify({'flag': 1})
-#     set_access_cookies(response, access_token)
-#
-#     return jsonify({'msg': "재발급 성공"})
+    if not current_user:
+        return redirect(url_for('login_page'))
 
-#     return render_template('index.html')R
+    return render_template('index.html')
 
 @app.route('/')
 def login_page():
@@ -63,11 +63,7 @@ def login():
     user_email = request.form['email_give']
     user_password = request.form['password_give']
 
-    # print(user_email)
-    # print(user_password)
-
     user = db.user.find_one({'email': user_email})
-    # print(user)
 
     if user is None:
         return jsonify({'msg': "이메일이 존재하지 않습니다."});
@@ -83,9 +79,6 @@ def login():
     set_access_cookies(response, access_token)
     set_refresh_cookies(response, refresh_token)
 
-    # print(access_token)
-    # print(refresh_token)
-    # return jsonify(access_token=access_token)
     return response, 200
 
 @app.route("/logout", methods=["POST"])
@@ -114,7 +107,6 @@ def sign_up():
         return jsonify({'msg': '비밀번호가 일치하지 않습니다'})
 
     check_dup_email = db.user.find_one({'email': email_receive})
-    # print(type(check_dup_email))
     if check_dup_email is None:
         doc = {
             'nickname': nickname_receive,
@@ -126,15 +118,6 @@ def sign_up():
         return jsonify({'msg': '이미 가입된 이메일 입니다.'})
 
     return jsonify({'flag': 1})
-
-@app.route('/refresh', methods=['GET'])
-@jwt_required(optional=False, refresh=True)
-def refresh():
-    current_user = get_jwt_identity()
-    access_token = create_access_token(identity=current_user)
-    response = jsonify({'flag': 1})
-    set_access_cookies(response, access_token)
-    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

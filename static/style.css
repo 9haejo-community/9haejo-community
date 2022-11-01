@@ -119,12 +119,12 @@ body{
     height: 90px;
     width: 380px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
 }
 
 #side-bar__menu div:first-child{
-    display: flex;
+    display: none;
     height: 40px;
     width: 150px;
     align-items: center;

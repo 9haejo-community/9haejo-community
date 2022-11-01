@@ -18,8 +18,8 @@ jwt = JWTManager(app)
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_SECURE'] = True
 app.config['JWT_CSRF_IN_COOKIES'] = False
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=10)
-app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=14)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=1)
 
 # JWT without authorization
 @jwt.expired_token_loader

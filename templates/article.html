@@ -102,17 +102,20 @@
             let name = $('#name').val()
             let tag = $('#tag').val()
             let content = $('#content').val()
-
-            $.ajax({
+            if (title == "" || name == "" || tag == "" || content == "") {
+                 alert("빈칸을 채워주세요")
+            }
+            else{
+                $.ajax({
                 type: "POST",
                 url: "/article/post",
                 data: {'title_give':title, 'tag_give':tag, 'content_give':content, 'name_give':name},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.replace("/home")
-                }
-            });
-        }
+                }})
+
+        }}
 
 
 </script>
@@ -120,7 +123,7 @@
     <section id="back" class="back">
         <div class="art_sign">
             <h2 class="art_title">항해99에 대한 이야기를 나눠주세요</h2>
-            <from>
+            <form>
                 <div class="input-group input-group-lg">
                     <span class="input-group-text" id="inputGroup-sizing-lg"><p>제목</p></span>
                     <input id="title" type="text" class="form-control" aria-label="Sizing example input"
@@ -146,7 +149,7 @@
                     <button type="button" class="btn btn-primary btn-lg" onclick="save_text()">등록하기</button>
                     <button type="button" class="btn btn-secondary btn-lg" onclick="location.href='/home'">취소하기</button>
                 </div>
-            </from>
+            </form>f
             </div>
         </div>
     </section>

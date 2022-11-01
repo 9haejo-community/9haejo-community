@@ -1,27 +1,113 @@
-import requests
-import uuid
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask_jwt_extended import *
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import timedelta, timezone, datetime
+import certifi
+import requests
+import uuid
+
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "guhaejo-secret"
+now = datetime.now()
+ca = certifi.where()
 
+# JWT config
+jwt = JWTManager(app)
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIE_SECURE'] = True
+app.config['JWT_CSRF_IN_COOKIES'] = False
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=10)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=14)
 
+# JWT without authorization
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+    return redirect(url_for('login_page'))
 
+# DB information
 client = MongoClient('mongodb+srv://test:sparta@cluster0.cctcpnr.mongodb.net/?retryWrites=true&w=majority')
 db = client.guhaejo
+
+# Crawling config
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
 data = requests.get('https://news.daum.net/digital/#1', headers=headers)
-
 soup = BeautifulSoup(data.text, 'html.parser')
 
+@app.route('/')
+def login_page():
+    return render_template('login.html')
+
 @app.route('/home')
+@jwt_required(optional=True)
 def home():
+    current_user = get_jwt_identity()
+    print(current_user)
+    if not current_user:
+        return redirect(url_for('login_page'))
+
     return render_template('index.html')
 
-# @app.route('/test')
-# def test():
-#     return render_template('/test/test.html')
+@app.route('/signup')
+def signup_page():
+    return render_template('signup.html')
+
+@app.route('/login', methods=["POST"])
+def login():
+    user_email = request.form['email_give']
+    user_password = request.form['password_give']
+
+    user = db.user.find_one({'email': user_email})
+
+    if user is None:
+        return jsonify({'msg': "이메일이 존재하지 않습니다."});
+    if check_password_hash(user['password'], user_password) is False:
+        return jsonify({'msg': '비밀번호가 일치하지 않습니다.'});
+
+    access_token = create_access_token(identity=user['email'])
+    refresh_token = create_refresh_token(identity=user['email'])
+
+    response = jsonify({'flag': 1})
+
+    # Save tokens into cookie storage
+    set_access_cookies(response, access_token)
+    set_refresh_cookies(response, refresh_token)
+
+    return response, 200
+
+@app.route("/signup", methods=["POST"])
+def sign_up():
+    nickname_receive = request.form['nickname_give']
+    email_receive = request.form['email_give']
+    password_receive = request.form['password_give']
+    confirm_password_receive = request.form['confirm_password_give']
+
+    print(nickname_receive, email_receive, password_receive)
+    # Validation
+    if nickname_receive == "":
+        return jsonify({'msg': '닉네임을 입력해주세요'})
+    elif password_receive == "":
+        return jsonify({'msg': '비밀번호를 입력해주세요'})
+    elif email_receive == "":
+        return jsonify({'msg': '이메일을 입력해주세요'})
+
+    if password_receive != confirm_password_receive:
+        return jsonify({'msg': '비밀번호가 일치하지 않습니다'})
+
+    check_dup_email = db.user.find_one({'email': email_receive})
+    if check_dup_email is None:
+        doc = {
+            'nickname': nickname_receive,
+            'email': email_receive,
+            'password': generate_password_hash(password_receive)
+        }
+        db.user.insert_one(doc)
+    elif check_dup_email['email'] == email_receive:
+        return jsonify({'msg': '이미 가입된 이메일 입니다.'})
+
+    return jsonify({'flag': 1})
 
 @app.route("/guhaejo", methods=["GET"])
 def board_get():
@@ -42,7 +128,6 @@ def news_get():
             'company' : news_company}
         news_list.append(doc)
     return jsonify({'news_list': news_list})
-
 
 @app.route("/guhaejo/todos", methods=["POST"])
 def todo_post():
@@ -111,21 +196,12 @@ def web_reivews_get():
             reviews_list.append(review_obj)
     return jsonify({'reviews' : reviews_list, 'imgList': img_list})
 
-
 @app.route("/guhaejo/view-count", methods=["POST"])
 def view_count_post():
     post_num_receive = request.form['post_num']
     view_count_receive = request.form['view_count']
     db.article.update_one({'post_num': int(post_num_receive)},{'$set':{'view_count': int(view_count_receive)}})
     return jsonify('msg',"view-count+1 완료")
-
-
-# ---------------------------
-from datetime import timedelta, timezone, datetime
-now = datetime.now()
-import certifi
-
-ca = certifi.where()
 
 @app.route('/article')
 def article():
@@ -143,7 +219,6 @@ def web_article_post():
     current_time = now.strftime("%Y/%m/%d, %H:%M:%S")
     view_count = 0
     comment_count = 0
-
 
     doc ={
         'title':title_receive,
@@ -163,127 +238,11 @@ def web_article_post():
 def web_article_get():
     return jsonify({'articles': 'GET 연결 완료!'})
 
-# -----------------------------------------------
-
-
-from flask_jwt_extended import *
-from werkzeug.security import generate_password_hash, check_password_hash
-
-
-
-app.config["JWT_SECRET_KEY"] = "guhaejo-secret"
-jwt = JWTManager(app)
-
-app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-app.config['JWT_COOKIE_SECURE'] = True
-app.config['JWT_CSRF_IN_COOKIES'] = False
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=10)
-app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=14)
-
-# Set a callback function to return a custom response whenever an expired
-# token attempts to access a protected route. This particular callback function
-# takes the jwt_header and jwt_payload as arguments, and must return a Flask
-# response. Check the API documentation to see the required argument and return
-# values for other callback functions.
-
-@jwt.expired_token_loader
-def my_expired_token_callback(jwt_header, jwt_payload):
-    return redirect(url_for('login_page'))
-
-# @app.route('/401')
-# @jwt_required(refresh=True)
-# def error_401():
-#     current_user = get_jwt_identity()
-#     print("new ", current_user)
-#     if not current_user:
-#         return redirect(url_for('login_page'))
-#
-#     access_token = create_access_token(identity=current_user)
-#     response = jsonify(flag=1)
-#     set_access_cookies(response, access_token)
-#
-#     return response, 200
-
-
-@jwt_required(optional=True)
-def login_home():
-    current_user = get_jwt_identity()
-    print(current_user)
-    if not current_user:
-        return redirect(url_for('login_page'))
-
-    return render_template('index.html')
-
-@app.route('/')
-def login_page():
-    return render_template('login.html')
-
-@app.route('/signup')
-def signup_page():
-    return render_template('signup.html')
-
-@app.route('/login', methods=["POST"])
-def login():
-    user_email = request.form['email_give']
-    user_password = request.form['password_give']
-
-    user = db.user.find_one({'email': user_email})
-
-    if user is None:
-        return jsonify({'msg': "이메일이 존재하지 않습니다."});
-    if check_password_hash(user['password'], user_password) is False:
-        return jsonify({'msg': '비밀번호가 일치하지 않습니다.'});
-
-    access_token = create_access_token(identity=user['email'])
-    refresh_token = create_refresh_token(identity=user['email'])
-
-    response = jsonify({'flag': 1})
-
-    # Save tokens into cookie storage
-    set_access_cookies(response, access_token)
-    set_refresh_cookies(response, refresh_token)
-
-    return response, 200
-
 @app.route("/logout", methods=["POST"])
 def logout():
     response = jsonify({"msg": "로그아웃 하였습니다."})
     unset_jwt_cookies(response)
     return response
-
-@app.route("/signup", methods=["POST"])
-def sign_up():
-    nickname_receive = request.form['nickname_give']
-    email_receive = request.form['email_give']
-    password_receive = request.form['password_give']
-    confirm_password_receive = request.form['confirm_password_give']
-
-    print(nickname_receive, email_receive, password_receive)
-    # Validation
-    if nickname_receive == "":
-        return jsonify({'msg': '닉네임을 입력해주세요'})
-    elif password_receive == "":
-        return jsonify({'msg': '비밀번호를 입력해주세요'})
-    elif email_receive == "":
-        return jsonify({'msg': '이메일을 입력해주세요'})
-
-    if password_receive != confirm_password_receive:
-        return jsonify({'msg': '비밀번호가 일치하지 않습니다'})
-
-    check_dup_email = db.user.find_one({'email': email_receive})
-    if check_dup_email is None:
-        doc = {
-            'nickname': nickname_receive,
-            'email': email_receive,
-            'password': generate_password_hash(password_receive)
-        }
-        db.user.insert_one(doc)
-    elif check_dup_email['email'] == email_receive:
-        return jsonify({'msg': '이미 가입된 이메일 입니다.'})
-
-    return jsonify({'flag': 1})
-
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
